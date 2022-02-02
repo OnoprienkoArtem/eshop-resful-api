@@ -35,3 +35,4 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .dbdata
+.DS_Store~6cada7d (create env variable)
