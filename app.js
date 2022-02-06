@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const app = express();
 
 
@@ -23,6 +24,8 @@ app.post(`${api}/products`, (req, res) => {
     const newProduct = req.body;
     res.send(newProduct);
 });
+
+mongoose.connect(process.env.CONNECTION_STRING);
 
 app.listen(3000, () => {
     console.log(api);
