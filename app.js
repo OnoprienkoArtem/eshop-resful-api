@@ -25,7 +25,13 @@ app.post(`${api}/products`, (req, res) => {
     res.send(newProduct);
 });
 
-mongoose.connect(process.env.CONNECTION_STRING);
+mongoose.connect(process.env.CONNECTION_STRING)
+    .then(() => {
+        console.log('Database Connection is ready ...');
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 app.listen(3000, () => {
     console.log(api);
