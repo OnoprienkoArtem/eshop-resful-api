@@ -11,6 +11,14 @@ const api = process.env.API_URL;
 app.use(express.json());
 app.use(morgan('tiny'));
 
+const productSchema = mongoose.Schema({
+    name: String,
+    image: String,
+    countInStock: Number,
+});
+
+const Product = mongoose.model('Product', productSchema);
+
 app.get(`${api}/products`, (req, res) => {
     const product = {
         id: 1,
