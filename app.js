@@ -1,10 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const productsRouter = require('./routers/products');
 
 const app = express();
+
+app.use(cors());
+app.options('*', cors());
 
 require('dotenv/config');
 
