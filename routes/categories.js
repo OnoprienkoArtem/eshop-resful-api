@@ -12,7 +12,7 @@ router.get(`/`, async (req, res) =>{
     res.send(categoryList);
 });
 
-router.post('/', async (res, req) => {
+router.post('/', async (req, res) => {
     let category = new Category({
         name: req.body.name,
         icon: req.body.icon,
