@@ -1,6 +1,6 @@
 const express = require('express');
 const { Category } = require('../models/category');
-const Product = require('../models/product');
+const { Product } = require('../models/product');
 const router = express.Router();
 
 
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         return res.status(400).send('Invalid category');
     }
 
-    const product = new Product({
+    let product = new Product({
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,        
