@@ -1,4 +1,5 @@
 const express = require('express');
+const { Category } = require('../models/category');
 const Product = require('../models/product');
 const router = express.Router();
 
@@ -13,6 +14,12 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    const category = await Category.findById(req.body.category);
+
+    if (!category) {
+        return res.status(400).send('Invalid category');
+    }
+
     const product = new Product({
         name: req.body.name,
         description: req.body.description,
