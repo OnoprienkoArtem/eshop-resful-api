@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.get('/', async (req, res) => {
-    const productList = await Product.find();
+    const productList = await Product.find().select('name image -_id');
 
     if (!productList) {
         res.status(500).json({success: false});
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     if (!product) {
         res.status(500).json({success: false});
     }
-    
+
     res.send(product);
 });
 
