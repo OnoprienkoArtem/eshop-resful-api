@@ -5,7 +5,8 @@ const router = express.Router();
 
 
 router.get('/', async (req, res) => {
-    const productList = await Product.find().select('name image -_id').populate('category');
+    const productList = await Product.find().populate('category');
+    // .select('name image -_id')
 
     if (!productList) {
         res.status(500).json({success: false});
