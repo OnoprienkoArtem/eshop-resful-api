@@ -2,6 +2,7 @@ const { expressjwt: jwt } = require('express-jwt');
 
 function authJwt() {
     const secret = process.env.secret;
+    const api = process.env.API_URL;
 
     return jwt({
         secret,
@@ -9,11 +10,11 @@ function authJwt() {
     }).unless({
         path: [
             {
-                url: '/api/v1/products', 
+                url: `${api}/products`, 
                 methods: ['GET', 'OPTIONS'],
             },
-            '/api/v1/users/login',
-            '/api/v1/users/register'
+            `${api}/users/login`,
+            `${api}/users/register`
         ]
     });
 }
