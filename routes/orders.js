@@ -38,9 +38,16 @@ router.post('/', async (req, res) => {
 
         return newOrderItem._id;
     }));    
+    const orderItemsIdsResolved = await orderItemsIds;
+    const totalPrices = await Promise.all(orderItemsIdsResolved.map(async (orderItemId) => {
+        const orderItem = await OrderItem.findById(orderItemId).populate('product', 'price');
+
+        return orderItem.product.price * orderItem.quantity;
+    }));
+    const totalPrice = totalPrices.reduce((a, b) => a + b, 0);
 
     let order = new Order({
-        orderItems: await orderItemsIds,
+        orderItems: orderItemsIdsResolved,
         shippingAddress1: req.body.shippingAddress1,
         shippingAddress2: req.body.shippingAddress2,
         city: req.body.city,
@@ -48,7 +55,7 @@ router.post('/', async (req, res) => {
         country: req.body.country,
         phone: req.body.phone,
         status: req.body.status,
-        totalPrice: req.body.totalPrice,
+        totalPrice: totalPrice,
         user: req.body.user,
     });
     order = await order.save();
@@ -84,7 +91,7 @@ router.delete('/:id', (req, res) => {
             await order.orderItems.map(async orderItem => {
                 await OrderItem.findByIdAndRemove(orderItem);
             });
-            
+
             return res.status(200).json({success: true, message: 'the order is deleted!'});
         } else {
             return res.status(404).json({success: false, message: 'order not found'});
