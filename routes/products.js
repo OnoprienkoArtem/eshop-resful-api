@@ -182,7 +182,7 @@ router.put('/gallery-images/:id', uploadOptions.array('images', 10), async (req,
 
     if (files) {
         files.map(file => {
-            imagesPaths.push(`${basePath}${file.fileName}`);
+            imagesPaths.push(`${basePath}${file.filename}`);
         });
     }
 
