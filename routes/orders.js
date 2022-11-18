@@ -8,7 +8,8 @@ router.get(`/`, async (req, res) =>{
 
     if(!orderList) {
         res.status(500).json({success: false})
-    } 
+    }
+
     res.send(orderList);
 });
 
