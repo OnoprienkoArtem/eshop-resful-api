@@ -2,6 +2,7 @@ const {Order} = require('../models/order');
 const {OrderItem} = require('../models/order-item');
 const express = require('express');
 const router = express.Router();
+const stripe = require('stripe')('sk_test_51NhIMvGeEpJcVEkbc5mcox59wOIKOiFWroACjUuaEUlHxplcZ1SB9AlQokTgagfQoFmddlVeMjG1wju4kRJsEq0000HoVyHk4S');
 
 router.get(`/`, async (req, res) =>{
     const orderList = await Order.find().populate('user', 'name').sort({'dateOrdered': -1});
@@ -66,6 +67,18 @@ router.post('/', async (req, res) => {
     }
 
     res.send(order);
+});
+
+router.post('/create-checkout-session', async (req, res) => {
+    const orderItems = req.body;
+    const lineItems = {};
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: 'payment',
+        success_url: 'http://localhost:4200/success',
+        cancel_url: 'http://localhost:4200/error',
+    });
 });
 
 router.put('/:id', async (req, res) => {
